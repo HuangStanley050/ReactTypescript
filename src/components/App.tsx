@@ -9,8 +9,20 @@ interface AppProps {
 }
 
 class _App extends React.Component<AppProps> {
+  onButtonClick = (): void => {
+    this.props.fetchTodos();
+  };
   render() {
-    return <div>Hi there</div>;
+    return (
+      <div>
+        <button onClick={this.onButtonClick}>Fetch todos</button>
+        <ul>
+          {this.props.todos.map((todo: Todo) => {
+            return <li key={todo.id}>{todo.title}</li>;
+          })}
+        </ul>
+      </div>
+    );
   }
 }
 //using destructuring

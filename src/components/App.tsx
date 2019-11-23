@@ -10,9 +10,19 @@ interface AppProps {
 }
 
 class _App extends React.Component<AppProps> {
+  state = { isFetching: false };
+
+  componentDidUpdate(prevProps: AppProps): void {
+    if (!prevProps.todos.length && this.props.todos.length) {
+      this.setState({ isFetching: false });
+    }
+  }
+
   onButtonClick = (): void => {
+    this.setState({ isFetching: true });
     this.props.fetchTodos();
   };
+
   removeTodo = (id: number): void => {
     this.props.deleteTodo(id);
   };
@@ -20,6 +30,7 @@ class _App extends React.Component<AppProps> {
     return (
       <div>
         <button onClick={this.onButtonClick}>Fetch todos</button>
+        {this.state.isFetching ? <h2>Loading</h2> : null}
         <ul>
           {this.props.todos.map((todo: Todo) => {
             return (
